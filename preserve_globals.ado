@@ -1,7 +1,9 @@
-*! version 2.1.0  10oct2023
+*! version 2.2.0  11oct2023
 program preserve_globals
     
     version 16.1
+    
+    if (_caller() > 18) local version "version `=_caller()' :"
     
     gettoken comma_or_colon zero : 0 , parse(",:") quotes
     if ( inlist(`"`comma_or_colon'"', ",", ":") ) {
@@ -32,7 +34,7 @@ program preserve_globals
     
     nobreak {
         
-        capture noisily break version `=_caller()' : execute `0'
+        capture noisily break `version' execute `0'
         local rc = _rc
         
         local i 0
@@ -150,6 +152,8 @@ exit
 /*  _________________________________________________________________________
                                                               version history
 
+2.2.0   11oct2023   bug fix: pass thru caller version 
+                        if and only if version > 18
 2.1.0   10oct2023   bug fix: pass thru caller version
                     new option -strict-
 2.0.0   08oct2023   bug fix: handle left single quotes
